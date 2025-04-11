@@ -12,11 +12,4 @@ public class TaskService {
     public void saveStatus(int id, short status) {
         taskRepository.saveStatus(status, id);
     }
-
-    private Task setTask(TaskForm reqStatus){
-        Task saveTask = new Task();
-        saveTask.setId(reqStatus.getId());
-        saveTask.setStatus(reqStatus.getStatus());
-        return saveTask;
-    }
 }
