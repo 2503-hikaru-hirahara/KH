@@ -12,7 +12,7 @@ public class TaskForm {
     private int id;
     private String content;
     private short status;
-    private LocalDateTime limit_date;
+    private LocalDateTime limitDate;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }

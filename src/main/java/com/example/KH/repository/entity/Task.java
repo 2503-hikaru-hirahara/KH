@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "task")
+@Table(name = "tasks")
 @Getter
 @Setter
 public class Task {
@@ -28,7 +28,7 @@ public class Task {
     private short status;
 
     @Column
-    private LocalDateTime limit_date;
+    private LocalDateTime limitDate;
 
     @CreatedDate
     @Column(updatable = false)
