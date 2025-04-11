@@ -28,7 +28,7 @@ public class Task {
     private short status;
 
     @Column
-    private LocalDateTime limit_date;
+    private LocalDateTime limitDate;
 
     @CreatedDate
     @Column(updatable = false)
