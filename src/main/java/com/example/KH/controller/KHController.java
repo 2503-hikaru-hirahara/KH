@@ -43,4 +43,15 @@ public class KHController {
         taskService.saveStatus(id, status);
         return new ModelAndView("redirect:/");
     }
+
+    /*
+     * 投稿削除処理
+     */
+    @DeleteMapping("/delete/{id}")
+    public ModelAndView deleteTask(@PathVariable Integer id) {
+        // テーブルから投稿を削除
+        taskService.deleteTask(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
 }

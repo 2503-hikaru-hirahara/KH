@@ -46,4 +46,11 @@ public class TaskService {
     public void saveStatus(int id, short status) {
         taskRepository.saveStatus(status, id);
     }
+
+    /*
+     * レコード削除
+     */
+    public void deleteTask(Integer id) {
+        taskRepository.deleteById(id);
+    }
 }
