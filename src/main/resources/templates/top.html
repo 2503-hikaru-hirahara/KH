@@ -7,21 +7,25 @@
 </head>
 <body>
 <div class="header-contents">
-    <h1>ToDoリスト</h1>
+    <h1>ToDo</h1>
 </div>
 <div class="main-contents">
+    <div class="date">
+        本日の日付 : <span th:text="${#temporals.format(now, 'yyyy/MM/dd')}"/>
+    </div>
+    <br/>
     <a href="/new">
         <button class="new-button" type="button">新規タスク</button>
     </a>
     <div class="message-icon" th:each="task : ${tasks}">
         <div class="content">
-            タスク : <span th:text="${task.content}"/>
+            タスク内容 : <span th:text="${task.content}"/>
         </div>
         <div class="content">
             ステータス : <span th:text="${task.status}"/>
         </div>
         <div class="date">
-            タスク期限 : <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+            タスク期限 : <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"/>
         </div>
     </div>
 </div>
