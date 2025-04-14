@@ -3,15 +3,9 @@ package com.example.KH.repository.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "tasks")
 @Getter
 @Setter
@@ -28,13 +22,11 @@ public class Task {
     private short status;
 
     @Column
-    private LocalDateTime limitDate;
+    private Date limitDate;
 
-    @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
-    @LastModifiedDate
     @Column
-    private LocalDateTime updatedDate;
+    private Date updatedDate;
 }

@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.List;
@@ -26,7 +26,7 @@ public class KHController {
     public ModelAndView top() {
         ModelAndView mav = new ModelAndView();
         // 現在日時を取得
-        LocalDate now = LocalDate.now();
+        Date now = new Date();
         // タスクを全件取得
         List<TaskForm> taskData = taskService.findAllTask();
         // 画面遷移先を指定

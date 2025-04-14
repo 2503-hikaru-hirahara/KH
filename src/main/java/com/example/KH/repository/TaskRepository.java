@@ -13,6 +13,6 @@ import java.util.List;
 public interface TaskRepository  extends JpaRepository<Task, Integer> {
     public List<Task> findAllByOrderByLimitDateAsc();
     @Modifying
-    @Query("UPDATE Task t SET t.status = :status WHERE t.id = :id")
+    @Query("UPDATE Task t SET t.status = :status, t.updatedDate = CURRENT_TIMESTAMP WHERE t.id = :id")
     void saveStatus(@Param("status")short status, @Param("id")int id);
 }
