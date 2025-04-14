@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>タスク追加</title>
+</head>
+<body>
+<div class="header-contents">
+    <h1>タスク追加</h1>
+</div>
+<div class="main-contents">
+    <div class="error-messages" th:if="${session.errorMessages} != null">
+        <div th:each="errorMessage : ${session.errorMessages}">
+            <span th:text="${errorMessage}"/>
+        </div>
+    </div>
+    <form action="/add" th:object="${taskForm}" th:method="post">
+        <div class="content">
+            タスク内容
+            <textarea class="tweet-box" th:field="*{content}" size="20" maxlength="200"/></textarea><br/>
+        </div>
+        <div class="date">
+            タスク期限
+            <input name="startDate" type="date" th:text="${#temporals.format(*{limitDate}, 'yyyy/MM/dd')}"><br/>
+        </div>
+        <input type="submit" value="追加">
+    </form>
+    <form action="/">
+        <input type="submit" value="戻る"/>
+    </form>
+</div>
+</body>
+</html>

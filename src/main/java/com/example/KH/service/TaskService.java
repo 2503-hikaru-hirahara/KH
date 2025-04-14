@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -52,5 +53,25 @@ public class TaskService {
      */
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
+    }
+
+    /*
+     * レコード追加
+     */
+    public void saveTask(TaskForm taskForm) {
+        Task saveReport = setTaskForm(taskForm);
+        saveReport.setUpdatedDate(new Date());
+        reportRepository.save(saveReport);
+    }
+
+    /*
+     * リクエストから取得した情報をEntityに設定
+     */
+    private Task setReportEntity(TaskForm reqTask) {
+        Task task = new Task();
+        task.setId(reqTask.getId());
+        task.setContent(reqTask.getContent());
+        task.setLimitDate(reqTask.getLimitDate());
+        return task;
     }
 }
