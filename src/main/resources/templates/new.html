@@ -21,7 +21,7 @@
         </div>
         <div class="date">
             タスク期限
-            <input name="startDate" type="date" th:text="${#temporals.format(*{limitDate}, 'yyyy/MM/dd')}"><br/>
+            <input th:field="*{limitDate}" type="date"><br/>
         </div>
         <input type="submit" value="追加">
     </form>

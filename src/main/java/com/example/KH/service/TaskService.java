@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,15 +61,16 @@ public class TaskService {
      * レコード追加
      */
     public void saveTask(TaskForm taskForm) {
-        Task saveReport = setTaskForm(taskForm);
-        saveReport.setUpdatedDate(new Date());
-        reportRepository.save(saveReport);
+        Task saveTask = setTaskEntity(taskForm);
+        saveTask.setStatus((short)1);
+        saveTask.setUpdatedDate(new Date());
+        taskRepository.save(saveTask);
     }
 
     /*
      * リクエストから取得した情報をEntityに設定
      */
-    private Task setReportEntity(TaskForm reqTask) {
+    private Task setTaskEntity(TaskForm reqTask) {
         Task task = new Task();
         task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());

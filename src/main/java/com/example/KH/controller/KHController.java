@@ -78,7 +78,7 @@ public class KHController {
      * タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel") TaskForm taskForm) {
+    public ModelAndView addTask(@ModelAttribute("taskForm") TaskForm taskForm) {
         // 投稿をテーブルに格納
         taskService.saveTask(taskForm);
 
