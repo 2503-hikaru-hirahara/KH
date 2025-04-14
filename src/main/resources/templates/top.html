@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <!--<link th:href="@{/css/style.css}" rel="styleSheet">-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/delete.js}"></script>
     <title>TOP</title>
 </head>
 <body>
 <div class="header-contents">
-    <h1>ToDoリスト</h1>
+    <h1>ToDo</h1>
 </div>
 <div class="main-contents">
+    <div class="date">
+        本日の日付 : <span th:text="${#temporals.format(now, 'yyyy/MM/dd')}"/>
+    </div>
+    <br/>
     <a href="/new">
         <button class="new-button" type="button">新規タスク</button>
     </a>
     <div class="message-icon" th:each="task : ${tasks}">
         <div class="content">
-            タスク : <span th:text="${task.content}"/>
+            タスク内容 : <span th:text="${task.content}"/>
         </div>
         <div class="content">
             ステータス :
@@ -31,7 +37,13 @@
 
         </div>
         <div class="date">
-            タスク期限 : <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd HH:mm:ss')}"/>
+            タスク期限 : <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"/>
+        </div>
+        <div class="delete-button">
+            <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                <input name="content" th:value="${task.content}" type="hidden"/>
+                <input class="delete" type="submit" value="削除"/>
+            </form>
         </div>
     </div>
 </div>
