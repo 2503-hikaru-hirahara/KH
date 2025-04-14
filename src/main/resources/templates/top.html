@@ -5,6 +5,7 @@
     <!--<link th:href="@{/css/style.css}" rel="styleSheet">-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/delete.js}"></script>
+    <script th:src="@{/js/updateStatus.js}"></script>
     <title>TOP</title>
 </head>
 <body>
@@ -23,7 +24,7 @@
         <div class="content">
             タスク内容 : <span th:text="${task.content}"/>
         </div>
-        <div class="content">
+        <div class="status">
             ステータス :
             <form th:action="@{/update-Status/{id}(id=${task.id})}" th:method="put">
                 <select name="status" >
@@ -32,7 +33,7 @@
                     <option value="3" th:selected="${task.status == 3}">ステイ中</option>
                     <option value="4" th:selected="${task.status == 4}">完了</option>
                 </select>
-                <input type="submit" value="変更">
+                <input class="update-states" type="submit" value="変更">
             </form>
 
         </div>
