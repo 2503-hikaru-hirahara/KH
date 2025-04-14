@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -22,7 +22,7 @@ public class KHController {
     public ModelAndView top() {
         ModelAndView mav = new ModelAndView();
         // 現在日時を取得
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
         // タスクを全件取得
         List<TaskForm> taskData = taskService.findAllTask();
         // 画面遷移先を指定

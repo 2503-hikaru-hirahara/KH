@@ -19,7 +19,7 @@ public class TaskService {
      * レコード全件取得処理
      */
     public List<TaskForm> findAllTask() {
-        List<Task> results = taskRepository.findAll();
+        List<Task> results = taskRepository.findAllByOrderByLimitDateAsc();
         List<TaskForm> tasks = setTaskForm(results);
         return tasks;
     }
@@ -37,8 +37,6 @@ public class TaskService {
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
             task.setLimitDate(result.getLimitDate());
-            task.setCreatedDate(result.getCreatedDate());
-            task.setUpdatedDate(result.getUpdatedDate());
             tasks.add(task);
         }
         return tasks;

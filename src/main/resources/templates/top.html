@@ -37,7 +37,9 @@
 
         </div>
         <div class="date">
-            タスク期限 : <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"/>
+            タスク期限 :
+            <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"
+                  th:style="${task.limitDate.toLocalDate() > now} ? 'background-color:yellow' : 'background-color:red'"/>
         </div>
         <div class="delete-button">
             <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
