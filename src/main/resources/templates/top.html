@@ -14,13 +14,13 @@
 </div>
 <div class="main-contents">
     <div class="date">
-        本日の日付 : <span th:text="${#temporals.format(now, 'yyyy/MM/dd')}"/>
+        本日の日付 : <span th:text="${#dates.format(now, 'yyyy/MM/dd')}"/>
     </div>
     <br/>
     <a href="/new">
         <button class="new-button" type="button">新規タスク</button>
     </a>
-    <div class="message-icon" th:each="task : ${tasks}">
+    <div class="task-icon" th:each="task : ${tasks}">
         <div class="content">
             タスク内容 : <span th:text="${task.content}"/>
         </div>
@@ -37,10 +37,10 @@
             </form>
 
         </div>
-        <div class="date">
+        <div class="limit-date">
             タスク期限 :
-            <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"
-                  th:style="${task.limitDate.toLocalDate() > now} ? 'background-color:yellow' : 'background-color:red'"/>
+            <span th:text="${#dates.format(task.limitDate, 'yyyy/MM/dd')}"
+                  th:style="${task.limitDate > now} ? 'background-color:yellow' : 'background-color:red'"/>
         </div>
         <div class="delete-button">
             <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
