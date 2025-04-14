@@ -5,6 +5,7 @@ import com.example.KH.repository.TaskRepository;
 import com.example.KH.repository.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,8 @@ public class TaskService {
         return tasks;
     }
 
-    public void saveStatus(int id, short status) {
+    @Transactional
+    public void saveStatus(Integer id, short status) {
         taskRepository.saveStatus(status, id);
     }
 }

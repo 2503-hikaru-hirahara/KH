@@ -33,7 +33,7 @@ public class KHController {
      * ステータス変更処理
      */
     @PutMapping("/update-Status/{id}")
-    public ModelAndView updateStatus(@PathVariable int id,
+    public ModelAndView updateStatus(@PathVariable Integer id,
                                        @ModelAttribute("status") short status){
         taskService.saveStatus(id, status);
         return new ModelAndView("redirect:/");
