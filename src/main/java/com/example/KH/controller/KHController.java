@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -91,14 +92,15 @@ public class KHController {
      */
     @PostMapping("/add")
     public ModelAndView addTask(@ModelAttribute("taskForm")@Validated TaskForm taskForm,
-                                BindingResult result) {
+                                BindingResult result,
+                                RedirectAttributes redirectAttributes) {
         //バリデーション処理
         if(result.hasErrors()){
             List<String> errorMessages = new ArrayList<>();
             for(FieldError error : result.getFieldErrors()){
                 errorMessages.add(error.getDefaultMessage());
             }
-            session.setAttribute("errorMessages",errorMessages);
+            redirectAttributes.addFlashAttribute("errorMessages",errorMessages);
             return new ModelAndView("redirect:/new");
         }
 
@@ -112,21 +114,25 @@ public class KHController {
     /*
      * タスク編集画面表示処理
      */
-    @GetMapping("/edit/{id}")
-    public ModelAndView editTask(@PathVariable String id){
-        TaskForm task = new TaskForm();
+    @GetMapping({"/edit/", "/edit/{id}"})
+    public ModelAndView editTask(@PathVariable(required = false) String id,
+                                 RedirectAttributes redirectAttributes){
+        ModelAndView mav = new ModelAndView();
+        TaskForm task = null;
+
         if (!StringUtils.isBlank(id) && id.matches("^[0-9]*$")) {
             int intId = Integer.parseInt(id);
-            ModelAndView mav = new ModelAndView();
 
             task = taskService.selectTask(intId);
         }
 
         if (task == null) {
-            session.setAttribute("errorMessages","不正なパラメータです");
-            return new ModelAndView("redirect:/new");
+            List<String> errorMessages = new ArrayList<String>();
+            errorMessages.add("不正なパラメータです");
+            redirectAttributes.addFlashAttribute("errorMessages",errorMessages);
+            return new ModelAndView("redirect:/");
         }
-        ModelAndView mav = new ModelAndView();
+
         mav.addObject("taskForm", task);
         mav.setViewName("/edit");
         return mav;
@@ -138,14 +144,15 @@ public class KHController {
     @PutMapping("/update/{id}")
     public ModelAndView updateTask(@PathVariable Integer id,
                                    @ModelAttribute("taskForm") @Validated TaskForm taskForm,
-                                   BindingResult result) {
+                                   BindingResult result,
+                                   RedirectAttributes redirectAttributes) {
         //バリデーション処理
         if(result.hasErrors()){
             List<String> errorMessages = new ArrayList<>();
             for(FieldError error : result.getFieldErrors()){
                 errorMessages.add(error.getDefaultMessage());
             }
-            session.setAttribute("errorMessages",errorMessages);
+            redirectAttributes.addFlashAttribute("errorMessages",errorMessages);
             return new ModelAndView("redirect:/edit/{id}");
         }
         taskForm.setId(id);

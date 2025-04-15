@@ -13,6 +13,9 @@
     <h1>ToDo</h1>
 </div>
 <div class="main-contents">
+    <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
+        <span th:text="${errorMessage}"></span>
+    </div>
     <div class="date">
         本日の日付 : <span th:text="${#dates.format(now, 'yyyy/MM/dd')}"/>
     </div>
