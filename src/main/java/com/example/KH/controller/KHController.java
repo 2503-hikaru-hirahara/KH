@@ -5,7 +5,6 @@ import com.example.KH.service.TaskService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,11 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class KHController {
@@ -38,8 +33,8 @@ public class KHController {
                             @RequestParam (name = "content", required = false) String content) {
         ModelAndView mav = new ModelAndView();
         // 現在日時を取得
-        Date now = new Date();
-        // タスクを全件取得
+        LocalDate now = LocalDate.now();
+        // タスクを絞り込み取得
         List<TaskForm> taskData = taskService.findTaskByOrder(start, end, status, content);
         // 画面遷移先を指定
         mav.setViewName("/top");
