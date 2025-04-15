@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,7 +19,7 @@ public class TaskService {
     TaskRepository taskRepository;
 
     /*
-     * レコード取得処理
+     * レコード絞り込み取得処理
      */
     public List<TaskForm> findTaskByOrder(LocalDate start, LocalDate end, Short status, String content) {
         LocalDateTime startDateTime;

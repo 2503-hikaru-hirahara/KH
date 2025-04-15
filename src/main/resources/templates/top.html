@@ -13,11 +13,18 @@
     <h1>ToDo</h1>
 </div>
 <div class="main-contents">
+<<<<<<< HEAD
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
         <span th:text="${errorMessage}"></span>
+=======
+    <div class="error-messages" th:if="${session.errorMessages} != null">
+        <div th:each="errorMessage : ${session.errorMessages}">
+            <span th:text="${errorMessage}"/>
+        </div>
+>>>>>>> 8e5c905094905a984a0ca4079328db66aebec6d0
     </div>
     <div class="date">
-        本日の日付 : <span th:text="${#dates.format(now, 'yyyy/MM/dd')}"/>
+        本日の日付 : <span th:text="${#temporals.format(now, 'yyyy/MM/dd')}"/>
     </div>
     <br/>
     <a href="/new">
@@ -61,10 +68,8 @@
         </div>
         <div class="limit-date">
             タスク期限 :
-            <!--
-            <span th:text="${#dates.format(task.limitDate, 'yyyy/MM/dd')}"
-                  th:style="${task.limitDate > now} ? 'background-color:yellow' : 'background-color:red'"/>
-            -->
+            <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"
+                  th:style="${task.limitDate.isAfter(now)} ? 'background-color:yellow;' : 'background-color:red;'"/>
         </div>
         <div class="edit-button">
             <a th:href="@{/edit/{id}(id=${task.id})}">
