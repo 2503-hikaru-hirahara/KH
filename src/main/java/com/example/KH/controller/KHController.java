@@ -12,11 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class KHController {
@@ -29,12 +31,15 @@ public class KHController {
      * タスク内容表示処理
      */
     @GetMapping
-    public ModelAndView top() {
+    public ModelAndView top(@RequestParam (name = "start", required = false) LocalDate start,
+                            @RequestParam (name = "end", required = false) LocalDate end,
+                            @RequestParam (name = "status", required = false) Short status,
+                            @RequestParam (name = "content", required = false) String content) {
         ModelAndView mav = new ModelAndView();
         // 現在日時を取得
         Date now = new Date();
         // タスクを全件取得
-        List<TaskForm> taskData = taskService.findAllTask();
+        List<TaskForm> taskData = taskService.findTaskByOrder(start, end, status, content);
         // 画面遷移先を指定
         mav.setViewName("/top");
         // 現在日時データオブジェクトを保管

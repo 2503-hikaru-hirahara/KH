@@ -3,12 +3,13 @@ package com.example.KH.service;
 import com.example.KH.controller.form.TaskForm;
 import com.example.KH.repository.TaskRepository;
 import com.example.KH.repository.entity.Task;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,12 +20,41 @@ public class TaskService {
     TaskRepository taskRepository;
 
     /*
-     * レコード全件取得処理
+     * レコード取得処理
      */
-    public List<TaskForm> findAllTask() {
-        List<Task> results = taskRepository.findAllByOrderByLimitDateAsc();
-        List<TaskForm> tasks = setTaskForm(results);
-        return tasks;
+    public List<TaskForm> findTaskByOrder(LocalDate start, LocalDate end, Short status, String content) {
+        LocalDateTime startDateTime;
+        LocalDateTime endDateTime;
+
+        if (start != null) {
+            startDateTime = start.atStartOfDay();
+        } else {
+            startDateTime = LocalDate.of(2020,1,1).atStartOfDay();
+        }
+
+        if (end != null) {
+            endDateTime = end.plusDays(1).atStartOfDay().minusSeconds(1);
+        } else {
+            endDateTime = LocalDate.of(2101,1,1).atStartOfDay().minusSeconds(1);;
+        }
+
+        if (status != null && !StringUtils.isBlank(content)) {
+            List<Task> results = taskRepository.findByLimitDateBetweenAndStatusAndContentOrderByLimitDateAsc(startDateTime, endDateTime, status, content);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        } else if (status != null) {
+            List<Task> results = taskRepository.findByLimitDateBetweenAndStatusOrderByLimitDateAsc(startDateTime, endDateTime, status);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        } else if (!StringUtils.isBlank(content)) {
+            List<Task> results = taskRepository.findByLimitDateBetweenAndContentOrderByLimitDateAsc(startDateTime, endDateTime, content);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        } else {
+            List<Task> results = taskRepository.findByLimitDateBetweenOrderByLimitDateAsc(startDateTime, endDateTime);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        }
     }
 
     /*
