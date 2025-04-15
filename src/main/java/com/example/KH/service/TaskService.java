@@ -92,7 +92,9 @@ public class TaskService {
      */
     public void saveTask(TaskForm taskForm) {
         Task saveTask = setTaskEntity(taskForm);
-        saveTask.setStatus((short)1);
+        if(saveTask.getStatus() == 0){
+            saveTask.setStatus((short)1);
+        }
         saveTask.setUpdatedDate(new Date());
         taskRepository.save(saveTask);
     }
@@ -105,7 +107,15 @@ public class TaskService {
         task.setLimitDate(reqTask.getLimitDate().atTime(0, 0, 0));
         task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());
+        task.setStatus(reqTask.getStatus());
 
         return task;
+    }
+
+    public TaskForm selectTask(Integer id) {
+        List<Task> results = new ArrayList<>();
+        results.add((Task)taskRepository.findById(id).orElse(null));
+        List<TaskForm> tasks = setTaskForm(results);
+        return tasks.get(0);
     }
 }
