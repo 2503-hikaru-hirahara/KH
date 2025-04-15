@@ -2,6 +2,7 @@ package com.example.KH.controller;
 
 import com.example.KH.controller.form.TaskForm;
 import com.example.KH.service.TaskService;
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -100,6 +101,50 @@ public class KHController {
         taskService.saveTask(taskForm);
 
         // rootへリダイレクト
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
+     * タスク編集画面表示処理
+     */
+    @GetMapping("/edit/{id}")
+    public ModelAndView editTask(@PathVariable String id){
+        TaskForm task = new TaskForm();
+        if (!StringUtils.isBlank(id) && id.matches("^[0-9]*$")) {
+            int intId = Integer.parseInt(id);
+            ModelAndView mav = new ModelAndView();
+
+            task = taskService.selectTask(intId);
+        }
+
+        if (task == null) {
+            session.setAttribute("errorMessages","不正なパラメータです");
+            return new ModelAndView("redirect:/new");
+        }
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("taskForm", task);
+        mav.setViewName("/edit");
+        return mav;
+    }
+
+    /*
+     * タスク編集処理
+     */
+    @PutMapping("/update/{id}")
+    public ModelAndView updateTask(@PathVariable Integer id,
+                                   @ModelAttribute("taskForm") @Validated TaskForm taskForm,
+                                   BindingResult result) {
+        //バリデーション処理
+        if(result.hasErrors()){
+            List<String> errorMessages = new ArrayList<>();
+            for(FieldError error : result.getFieldErrors()){
+                errorMessages.add(error.getDefaultMessage());
+            }
+            session.setAttribute("errorMessages",errorMessages);
+            return new ModelAndView("redirect:/edit/{id}");
+        }
+        taskForm.setId(id);
+        taskService.saveTask(taskForm);
         return new ModelAndView("redirect:/");
     }
 }
