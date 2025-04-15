@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <!--<link th:href="@{/css/style.css}" rel="styleSheet">-->
+    <link th:href="@{/css/style.css}" rel="styleSheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/delete.js}"></script>
     <script th:src="@{/js/updateStatus.js}"></script>
@@ -16,14 +16,14 @@
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
         <span th:text="${errorMessage}"></span>
     </div>
-    <div class="date">
+    <div class="today-date">
         本日の日付 : <span th:text="${#temporals.format(now, 'yyyy/MM/dd')}"/>
     </div>
     <br/>
     <a href="/new">
         <button class="new-button" type="button">新規タスク</button>
     </a>
-    <div class="filter-icon">
+    <div class="filter">
         <form method="get">
             期限
             <input name="start" type="date"/>
@@ -39,41 +39,46 @@
             </select>
             タスク内容
             <textarea name="content"></textarea>
-            <input type="submit" value="絞込" />
+            <input type="submit" value="絞込"/>
         </form>
     </div>
-    <div class="task-icon" th:each="task : ${tasks}">
-        <div class="content">
-            タスク内容 : <pre><span th:text="${task.content}"/></pre>
+    <div class="tasks">
+        <div class="titles">
+            <div class="content-title">タスク内容</div>
+            <div class="status-title">ステータス</div>
+            <div class="limit-date-title">タスク期限</div>
         </div>
-        <div class="status">
-            ステータス :
-            <form th:action="@{/update-Status/{id}(id=${task.id})}" th:method="put">
-                <select name="status" >
-                    <option value="1" th:selected="${task.status == 1}">未着手</option>
-                    <option value="2" th:selected="${task.status == 2}">実行中</option>
-                    <option value="3" th:selected="${task.status == 3}">ステイ中</option>
-                    <option value="4" th:selected="${task.status == 4}">完了</option>
-                </select>
-                <input class="update-states" type="submit" value="変更">
-            </form>
+        <div class="task-icon" th:each="task : ${tasks}">
+            <div class="content">
+                <pre><span th:text="${task.content}"/></pre>
+            </div>
+            <div class="status">
+                <form th:action="@{/update-Status/{id}(id=${task.id})}" th:method="put">
+                    <select name="status">
+                        <option value="1" th:selected="${task.status == 1}">未着手</option>
+                        <option value="2" th:selected="${task.status == 2}">実行中</option>
+                        <option value="3" th:selected="${task.status == 3}">ステイ中</option>
+                        <option value="4" th:selected="${task.status == 4}">完了</option>
+                    </select>
+                    <input class="update-states-button" type="submit" value="変更">
+                </form>
 
-        </div>
-        <div class="limit-date">
-            タスク期限 :
-            <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"
-                  th:style="${task.limitDate.isAfter(now)} ? 'background-color:yellow;' : 'background-color:red;'"/>
-        </div>
-        <div class="edit-button">
-            <a th:href="@{/edit/{id}(id=${task.id})}">
-                <input type="button" value="編集">
-            </a>
-        </div>
-        <div class="delete-button">
-            <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
-                <input name="content" th:value="${task.content}" type="hidden"/>
-                <input class="delete" type="submit" value="削除"/>
-            </form>
+            </div>
+            <div class="limit-date">
+                <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"
+                      th:style="${task.limitDate.isAfter(now)} ? 'background-color:yellow;' : 'background-color:red;'"/>
+            </div>
+            <div class="edit-button">
+                <a th:href="@{/edit/{id}(id=${task.id})}">
+                    <input type="button" value="編集">
+                </a>
+            </div>
+            <div class="delete-button">
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                    <input name="content" th:value="${task.content}" type="hidden"/>
+                    <input class="delete" type="submit" value="削除"/>
+                </form>
+            </div>
         </div>
     </div>
 </div>
