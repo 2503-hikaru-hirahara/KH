@@ -3,7 +3,6 @@ package com.example.KH.controller;
 import com.example.KH.controller.form.TaskForm;
 import com.example.KH.service.TaskService;
 import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,8 +20,6 @@ import java.util.List;
 public class KHController {
     @Autowired
     TaskService taskService;
-    @Autowired
-    HttpSession session;
 
     /*
      * タスク内容表示処理

@@ -110,6 +110,9 @@ public class TaskService {
         return task;
     }
 
+    /*
+     * idからレコードを取得
+     */
     public TaskForm selectTask(Integer id) {
         List<Task> results = new ArrayList<>();
         results.add((Task)taskRepository.findById(id).orElse(null));

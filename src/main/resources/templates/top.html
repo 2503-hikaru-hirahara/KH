@@ -13,15 +13,8 @@
     <h1>ToDo</h1>
 </div>
 <div class="main-contents">
-<<<<<<< HEAD
     <div class="errorMessages" th:each="errorMessage : ${errorMessages}">
         <span th:text="${errorMessage}"></span>
-=======
-    <div class="error-messages" th:if="${session.errorMessages} != null">
-        <div th:each="errorMessage : ${session.errorMessages}">
-            <span th:text="${errorMessage}"/>
-        </div>
->>>>>>> 8e5c905094905a984a0ca4079328db66aebec6d0
     </div>
     <div class="date">
         本日の日付 : <span th:text="${#temporals.format(now, 'yyyy/MM/dd')}"/>
