@@ -3,6 +3,8 @@ package com.example.KH.repository.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -22,7 +24,7 @@ public class Task {
     private short status;
 
     @Column
-    private Date limitDate;
+    private LocalDateTime limitDate;
 
     @Column(name = "updated_date", insertable = false, updatable = false)
     private Date createdDate;

@@ -2,13 +2,17 @@ package com.example.KH.controller;
 
 import com.example.KH.controller.form.TaskForm;
 import com.example.KH.service.TaskService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
@@ -18,6 +22,8 @@ import java.util.List;
 public class KHController {
     @Autowired
     TaskService taskService;
+    @Autowired
+    HttpSession session;
 
     /*
      * タスク内容表示処理
@@ -78,7 +84,18 @@ public class KHController {
      * タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("taskForm") TaskForm taskForm) {
+    public ModelAndView addTask(@ModelAttribute("taskForm")@Validated TaskForm taskForm,
+                                BindingResult result) {
+        //バリデーション処理
+        if(result.hasErrors()){
+            List<String> errorMessages = new ArrayList<>();
+            for(FieldError error : result.getFieldErrors()){
+                errorMessages.add(error.getDefaultMessage());
+            }
+            session.setAttribute("errorMessages",errorMessages);
+            return new ModelAndView("redirect:/new");
+        }
+
         // 投稿をテーブルに格納
         taskService.saveTask(taskForm);
 

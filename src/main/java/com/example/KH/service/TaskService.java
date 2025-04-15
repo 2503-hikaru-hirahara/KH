@@ -39,7 +39,7 @@ public class TaskService {
             task.setId(result.getId());
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
-            task.setLimitDate(result.getLimitDate());
+            task.setLimitDate(result.getLimitDate().toLocalDate());
             tasks.add(task);
         }
         return tasks;
@@ -72,9 +72,10 @@ public class TaskService {
      */
     private Task setTaskEntity(TaskForm reqTask) {
         Task task = new Task();
+        task.setLimitDate(reqTask.getLimitDate().atTime(0, 0, 0));
         task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());
-        task.setLimitDate(reqTask.getLimitDate());
+
         return task;
     }
 }
