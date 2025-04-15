@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -24,6 +24,6 @@ public class TaskForm {
     @NotNull(message = "期限を設定してください")
     @FutureOrPresent(message = "無効な日付です")
     private LocalDate limitDate;
-    private Date createdDate;
-    private Date updatedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 }

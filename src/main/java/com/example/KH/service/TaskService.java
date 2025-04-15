@@ -95,7 +95,6 @@ public class TaskService {
         if(saveTask.getStatus() == 0){
             saveTask.setStatus((short)1);
         }
-        saveTask.setUpdatedDate(new Date());
         taskRepository.save(saveTask);
     }
 

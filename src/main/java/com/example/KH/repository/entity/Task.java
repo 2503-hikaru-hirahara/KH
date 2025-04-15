@@ -3,11 +3,14 @@ package com.example.KH.repository.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "tasks")
 @Getter
 @Setter
@@ -26,9 +29,11 @@ public class Task {
     @Column
     private LocalDateTime limitDate;
 
-    @Column(name = "updated_date", insertable = false, updatable = false)
-    private Date createdDate;
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
 
-    @Column(name = "created_date", insertable = false)
-    private Date updatedDate;
+    @LastModifiedDate
+    @Column
+    private LocalDateTime updatedDate;
 }
