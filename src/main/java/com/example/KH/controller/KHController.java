@@ -5,6 +5,7 @@ import com.example.KH.service.TaskService;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -87,11 +88,17 @@ public class KHController {
                                 BindingResult result,
                                 RedirectAttributes redirectAttributes) {
         //バリデーション処理
+        List<String> errorMessages = new ArrayList<>();
         if(result.hasErrors()){
-            List<String> errorMessages = new ArrayList<>();
             for(FieldError error : result.getFieldErrors()){
                 errorMessages.add(error.getDefaultMessage());
             }
+
+        }
+        if(taskForm.getContent().equals("　")){
+            errorMessages.add("タスクを入力してください");
+        }
+        if(!CollectionUtils.isEmpty(errorMessages)){
             redirectAttributes.addFlashAttribute("errorMessages",errorMessages);
             return new ModelAndView("redirect:/new");
         }
@@ -119,9 +126,7 @@ public class KHController {
         }
 
         if (task == null) {
-            List<String> errorMessages = new ArrayList<String>();
-            errorMessages.add("不正なパラメータです");
-            redirectAttributes.addFlashAttribute("errorMessages",errorMessages);
+            redirectAttributes.addFlashAttribute("errorMessages","不正なパラメータです");
             return new ModelAndView("redirect:/");
         }
 
@@ -139,14 +144,21 @@ public class KHController {
                                    BindingResult result,
                                    RedirectAttributes redirectAttributes) {
         //バリデーション処理
+        List<String> errorMessages = new ArrayList<>();
         if(result.hasErrors()){
-            List<String> errorMessages = new ArrayList<>();
             for(FieldError error : result.getFieldErrors()){
                 errorMessages.add(error.getDefaultMessage());
             }
+
+        }
+        if(taskForm.getContent().equals("　")){
+            errorMessages.add("タスクを入力してください");
+        }
+        if(!CollectionUtils.isEmpty(errorMessages)){
             redirectAttributes.addFlashAttribute("errorMessages",errorMessages);
             return new ModelAndView("redirect:/edit/{id}");
         }
+
         taskForm.setId(id);
         taskService.saveTask(taskForm);
         return new ModelAndView("redirect:/");
